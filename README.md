@@ -4,12 +4,15 @@ As modified and maintained by David Kotz.
 
 Three main categories: 
 
-* `html-*` produce html files from a bibtex source
 * `subset-*` produce a bibtex file that is a subset of the source bibtex
 * `*DOI.bst` produce a latex References section much like the standard styles but with smarts to support DOI and URL fields.
+* `plainDOImend.bst` incorporates special 'fixes' to deal with Mendeley exports.  
+	* TODO: merge this into `plainDOI` permanently, and add the same capability to other `*DOI.bst` as well.
 
 
 ## Reference material
+
+Some of which is cached in subdirectory `documentation`.
 
 * [BibTeX CTAN distribution](https://ctan.org/pkg/bibtex), notably, the original author's documentation:
   * [using BibTeX](http://mirrors.ctan.org/biblio/bibtex/base/btxdoc.pdf) - for those writing bib files
@@ -30,8 +33,10 @@ Three main categories:
 
 ***coming soon...***
 
-## To consider
+## To do
 
-* make a new bst that is more concise, as my new default.
+* support ACM style
+* port Mendeley fixes from `plainDOImend` to all other DOI styles.
+* consider a new bst that is more concise, as our new default.
   * (show DOI instead of vol, num, pages, month)
   * (warn if no DOI for article, inproc, incoll)
