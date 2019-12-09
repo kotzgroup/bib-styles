@@ -226,40 +226,62 @@ FUNCTION {format.names}
 
 %%%%%%%%%%%%%%%%%% month-fix code start %%%%%%%%%%%%%%%%%
 % DFK: fix broken 'month' field exported by Mendeley.
+% Mendeley sometimes exports {10} instead of 10 or "October";
+% Mendeley sometimes exports {oct} instead of oct or "October".
 % on return, stack contains the proper month name.
-STRINGS { fixed.month.dfk }
 FUNCTION {month.fixed.by.dfk}
 {
-  % default is current value of 'month' field:
-  month 'fixed.month.dfk := 
-  % Mendeley sometimes exports {10} instead of 10 or "October":
-  month "1"  = {"January " 'fixed.month.dfk :=}    'skip$ if$
-  month "2"  = {"February " 'fixed.month.dfk :=}   'skip$ if$
-  month "3"  = {"March " 'fixed.month.dfk :=}      'skip$ if$
-  month "4"  = {"April " 'fixed.month.dfk :=}      'skip$ if$
-  month "5"  = {"May " 'fixed.month.dfk :=}        'skip$ if$
-  month "6"  = {"June " 'fixed.month.dfk :=}       'skip$ if$
-  month "7"  = {"July " 'fixed.month.dfk :=}       'skip$ if$
-  month "8"  = {"August " 'fixed.month.dfk :=}     'skip$ if$
-  month "9"  = {"September " 'fixed.month.dfk :=}  'skip$ if$
-  month "10" = {"October " 'fixed.month.dfk :=}    'skip$ if$
-  month "11" = {"November " 'fixed.month.dfk :=}   'skip$ if$
-  month "12" = {"December " 'fixed.month.dfk :=}   'skip$ if$
-  % Mendeley sometimes exports {oct} instead of oct or "October":
-  month "jan" = {"January " 'fixed.month.dfk :=}   'skip$ if$
-  month "feb" = {"February " 'fixed.month.dfk :=}  'skip$ if$
-  month "mar" = {"March " 'fixed.month.dfk :=}     'skip$ if$
-  month "apr" = {"April " 'fixed.month.dfk :=}     'skip$ if$
-  month "may" = {"May " 'fixed.month.dfk :=}       'skip$ if$
-  month "jun" = {"June " 'fixed.month.dfk :=}      'skip$ if$
-  month "jul" = {"July " 'fixed.month.dfk :=}      'skip$ if$
-  month "aug" = {"August " 'fixed.month.dfk :=}    'skip$ if$
-  month "sep" = {"September " 'fixed.month.dfk :=} 'skip$ if$
-  month "oct" = {"October " 'fixed.month.dfk :=}   'skip$ if$
-  month "nov" = {"November " 'fixed.month.dfk :=}  'skip$ if$
-  month "dec" = {"December " 'fixed.month.dfk :=}  'skip$ if$
-  % return the result
-  fixed.month.dfk
+  month empty$
+  { "" }
+  { month "1"  = {"January "}
+    { month "2"  = {"February "}
+      { month "3"  = {"March "}
+        { month "4"  = {"April "}
+          { month "5"  = {"May "}
+            { month "6"  = {"June "}
+              { month "7"  = {"July "}
+                { month "8"  = {"August "}
+                  { month "9"  = {"September "}
+                    { month "10" = {"October "}
+                      { month "11" = {"November "}
+                        { month "12" = {"December "}
+                          { month "jan" = {"January "}
+                            { month "feb" = {"February "}
+                              { month "mar" = {"March "}
+                                { month "apr" = {"April "}
+                                  { month "may" = {"May "}
+                                    { month "jun" = {"June "}
+                                      { month "jul" = {"July "}
+                                        { month "aug" = {"August "}
+                                          { month "sep" = {"September "}
+                                            { month "oct" = {"October "}
+                                              { month "nov" = {"November "}
+                                                { month "dec" = {"December "}
+                                                  { month } if$
+                                                } if$
+                                              } if$
+                                            } if$
+                                          } if$
+                                        } if$
+                                      } if$
+                                    } if$
+                                  } if$
+                                } if$
+                              } if$
+                            } if$
+                          } if$
+                        } if$
+                      } if$
+                    } if$
+                  } if$
+                } if$
+              } if$
+            } if$
+          } if$
+        } if$
+      } if$
+    } if$
+  } if$
 }
 %%%%%%%%%%%%%%%%%% month-fix code end %%%%%%%%%%%%%%%%%
 
