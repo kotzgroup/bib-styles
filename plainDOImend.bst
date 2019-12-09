@@ -227,39 +227,39 @@ FUNCTION {format.names}
 %%%%%%%%%%%%%%%%%% month-fix code start %%%%%%%%%%%%%%%%%
 % DFK: fix broken 'month' field exported by Mendeley.
 % on return, stack contains the proper month name.
-STRINGS { fixed.month }
-FUNCTION {month.fixed}
+STRINGS { fixed.month.dfk }
+FUNCTION {month.fixed.by.dfk}
 {
   % default is current value of 'month' field:
-  month 'fixed.month := 
+  month 'fixed.month.dfk := 
   % Mendeley sometimes exports {10} instead of 10 or "October":
-  month "1"  = {"January " 'fixed.month :=}    'skip$ if$
-  month "2"  = {"February " 'fixed.month :=}   'skip$ if$
-  month "3"  = {"March " 'fixed.month :=}      'skip$ if$
-  month "4"  = {"April " 'fixed.month :=}      'skip$ if$
-  month "5"  = {"May " 'fixed.month :=}        'skip$ if$
-  month "6"  = {"June " 'fixed.month :=}       'skip$ if$
-  month "7"  = {"July " 'fixed.month :=}       'skip$ if$
-  month "8"  = {"August " 'fixed.month :=}     'skip$ if$
-  month "9"  = {"September " 'fixed.month :=}  'skip$ if$
-  month "10" = {"October " 'fixed.month :=}    'skip$ if$
-  month "11" = {"November " 'fixed.month :=}   'skip$ if$
-  month "12" = {"December " 'fixed.month :=}   'skip$ if$
+  month "1"  = {"January " 'fixed.month.dfk :=}    'skip$ if$
+  month "2"  = {"February " 'fixed.month.dfk :=}   'skip$ if$
+  month "3"  = {"March " 'fixed.month.dfk :=}      'skip$ if$
+  month "4"  = {"April " 'fixed.month.dfk :=}      'skip$ if$
+  month "5"  = {"May " 'fixed.month.dfk :=}        'skip$ if$
+  month "6"  = {"June " 'fixed.month.dfk :=}       'skip$ if$
+  month "7"  = {"July " 'fixed.month.dfk :=}       'skip$ if$
+  month "8"  = {"August " 'fixed.month.dfk :=}     'skip$ if$
+  month "9"  = {"September " 'fixed.month.dfk :=}  'skip$ if$
+  month "10" = {"October " 'fixed.month.dfk :=}    'skip$ if$
+  month "11" = {"November " 'fixed.month.dfk :=}   'skip$ if$
+  month "12" = {"December " 'fixed.month.dfk :=}   'skip$ if$
   % Mendeley sometimes exports {oct} instead of oct or "October":
-  month "jan" = {"January " 'fixed.month :=}   'skip$ if$
-  month "feb" = {"February " 'fixed.month :=}  'skip$ if$
-  month "mar" = {"March " 'fixed.month :=}     'skip$ if$
-  month "apr" = {"April " 'fixed.month :=}     'skip$ if$
-  month "may" = {"May " 'fixed.month :=}       'skip$ if$
-  month "jun" = {"June " 'fixed.month :=}      'skip$ if$
-  month "jul" = {"July " 'fixed.month :=}      'skip$ if$
-  month "aug" = {"August " 'fixed.month :=}    'skip$ if$
-  month "sep" = {"September " 'fixed.month :=} 'skip$ if$
-  month "oct" = {"October " 'fixed.month :=}   'skip$ if$
-  month "nov" = {"November " 'fixed.month :=}  'skip$ if$
-  month "dec" = {"December " 'fixed.month :=}  'skip$ if$
+  month "jan" = {"January " 'fixed.month.dfk :=}   'skip$ if$
+  month "feb" = {"February " 'fixed.month.dfk :=}  'skip$ if$
+  month "mar" = {"March " 'fixed.month.dfk :=}     'skip$ if$
+  month "apr" = {"April " 'fixed.month.dfk :=}     'skip$ if$
+  month "may" = {"May " 'fixed.month.dfk :=}       'skip$ if$
+  month "jun" = {"June " 'fixed.month.dfk :=}      'skip$ if$
+  month "jul" = {"July " 'fixed.month.dfk :=}      'skip$ if$
+  month "aug" = {"August " 'fixed.month.dfk :=}    'skip$ if$
+  month "sep" = {"September " 'fixed.month.dfk :=} 'skip$ if$
+  month "oct" = {"October " 'fixed.month.dfk :=}   'skip$ if$
+  month "nov" = {"November " 'fixed.month.dfk :=}  'skip$ if$
+  month "dec" = {"December " 'fixed.month.dfk :=}  'skip$ if$
   % return the result
-  fixed.month
+  fixed.month.dfk
 }
 %%%%%%%%%%%%%%%%%% month-fix code end %%%%%%%%%%%%%%%%%
 
@@ -269,7 +269,7 @@ FUNCTION {month.fixed}
 %  output: integer number of characters in that string
 % from https://ctan.org/pkg/tamethebeast (Figure 4, adapted)
 INTEGERS{ slen }
-FUNCTION{string.length}
+FUNCTION{string.length.by.dfk}
 {
   #0 'slen :=
   {duplicate$ duplicate$ #1 slen substring$ = not}
@@ -284,11 +284,11 @@ FUNCTION{string.length}
 % from https://ctan.org/pkg/tamethebeast (Figure 5)
 STRINGS{replace find text}
 INTEGERS{find_length}
-FUNCTION{find.replace}
+FUNCTION{find.replace.by.dfk}
 { 'replace :=
   'find :=
   'text :=
-  find string.length 'find_length :=
+  find string.length.by.dfk 'find_length :=
   ""
     { text empty$ not }
     { text #1 find_length substring$ find =
@@ -311,7 +311,7 @@ FUNCTION{find.replace}
 %  output: the updated string
 % variables: text, slen, defined by search-replace code
 % (by DFK)
-FUNCTION{truncate.at.space}
+FUNCTION{truncate.at.space.by.dfk}
 {
   'text :=    % the original string
   #1 'slen := % length of prefix of that string
@@ -334,11 +334,11 @@ FUNCTION{truncate.at.space}
 % certain characters that appear in DOI strings.  We need to undo that!
 % This function should not be called when DOI field is missing$.
 % (by DFK)
-FUNCTION {doi.fixed}
+FUNCTION {doi.fixed.by.dfk}
 {
   DOI
-  "{\_}" "_" find.replace
-  "{\%}" "%" find.replace
+  "{\_}" "_" find.replace.by.dfk
+  "{\%}" "%" find.replace.by.dfk
 }
 
 % Return a 'fixed' copy of the 'URL' field, because Mendeley 'protects'
@@ -347,23 +347,23 @@ FUNCTION {doi.fixed}
 % We unprotect characters, delete %0A, and truncate at the first space.
 % This function should not be called when URL field is missing$.
 % (by DFK)
-FUNCTION {url.fixed}
+FUNCTION {url.fixed.by.dfk}
 {
   URL
-  truncate.at.space
-  "%0A" "" find.replace
+  truncate.at.space.by.dfk
+  "%0A" "" find.replace.by.dfk
 }
 
 %% DOI and URL (by DFK)
 %% give preference to DOI, if present
-FUNCTION {format.doi.or.url}
+FUNCTION {format.doi.or.url.by.dfk}
 { doi empty$
     { url empty$
 	{ "" }
-	{ "Online at \url{" url.fixed * "}" * }
+	{ "Online at \url{" url.fixed.by.dfk * "}" * }
       if$
     }
-    { "DOI \DOIbbl{" doi.fixed * "}" * }
+    { "DOI \DOIbbl{" doi.fixed.by.dfk * "}" * }
   if$
 }
 %%%%%%%%%%%%%%%%%% DOI- and URL-format code end %%%%%%%%%%%%%%%%%
@@ -425,13 +425,13 @@ FUNCTION {format.date}
     { month empty$
 	{ "" }
 	{ "there's a month but no year in " cite$ * warning$
-	  month.fixed
+	  month.fixed.by.dfk
 	}
       if$
     }
     { month empty$
 	'year
-	{ month.fixed " " * year * }
+	{ month.fixed.by.dfk " " * year * }
       if$
     }
   if$
@@ -744,7 +744,7 @@ FUNCTION {article}
   if$
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -777,7 +777,7 @@ FUNCTION {book}
   format.date "year" output.check
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -793,7 +793,7 @@ FUNCTION {booklet}
   format.date output
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -805,7 +805,7 @@ FUNCTION {electronic}
   format.title output
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   "visited " format.date * output
   fin.entry
   empty.misc.check
@@ -843,7 +843,7 @@ FUNCTION {inbook}
   format.date "year" output.check
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -870,7 +870,7 @@ FUNCTION {incollection}
   if$
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -905,7 +905,7 @@ FUNCTION {inproceedings}
   if$
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -942,7 +942,7 @@ FUNCTION {manual}
   format.date output
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -958,7 +958,7 @@ FUNCTION {mastersthesis}
   format.date "year" output.check
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -973,7 +973,7 @@ FUNCTION {misc}
   format.date output
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   empty.misc.check
 }
@@ -990,7 +990,7 @@ FUNCTION {phdthesis}
   format.date "year" output.check
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -1026,7 +1026,7 @@ FUNCTION {proceedings}
   if$
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -1042,7 +1042,7 @@ FUNCTION {techreport}
   format.date "year" output.check
   new.block
   note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
@@ -1054,7 +1054,7 @@ FUNCTION {unpublished}
   new.block
   note "note" output.check
   format.date output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
 }
 
