@@ -6,6 +6,8 @@ Three main categories:
 
 * `subset-*` produce a bibtex file that is a subset of the source bibtex
 * `*DOI.bst` produce a latex References section much like the standard styles but with smarts to support DOI and URL fields.
+* `ACMmend.bst` incorporates special 'fixes' to deal with Mendeley exports.  It natively handles DOI.
+	* TODO: rename it `ACM.bst`
 * `plainDOImend.bst` incorporates special 'fixes' to deal with Mendeley exports.  
 	* TODO: merge this into `plainDOI` permanently, and add the same capability to other `*DOI.bst` as well.
 
@@ -22,7 +24,7 @@ Some of which is cached in subdirectory `documentation`.
 
 ## IEEE styles
 
-**IEEEtran** for conferences and journals:
+Our variant is based on **IEEEtran**, for conferences and journals.
 
 * IEEEtran.bst should already be available in standard TeX distros.
 	*  `/usr/local/texlive/2018/texmf-dist/bibtex//bst/IEEEtran/IEEEtran.bst`
@@ -31,7 +33,7 @@ Some of which is cached in subdirectory `documentation`.
 
 ## ACM styles
 
-***coming soon...***
+Our variant is based on the [ACM standard LaTeX template](https://www.acm.org/publications/proceedings-template).
 
 ## To do
 
