@@ -1,6 +1,6 @@
 % BibTeX bibliography style `subset-public'
 % by David Kotz kotz@dartmouth.edu
-% March 2001, February 2008, March 2019
+% March 2001, February 2008, March 2019, December 2019
 % modified from 'subset'
   % by David Kotz kotz@dartmouth.edu
   % August 1992, May 1993, February 1999
@@ -42,6 +42,7 @@ ENTRY
     month
     note
     number
+    numpages
     organization
     pages
     publisher
@@ -111,6 +112,7 @@ FUNCTION {output.bibfields1}
   "type" type output
 
   "articleno" articleno output
+  "numpages" numpages output
   "pages" pages output
 
   "institution" institution output

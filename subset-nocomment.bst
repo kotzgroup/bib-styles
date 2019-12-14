@@ -1,6 +1,6 @@
 % BibTeX bibliography style `subset'
 % by David Kotz kotz@dartmouth.edu
-% August 1992, May 1993, February 1999, February 2008, March 2019
+% August 1992, May 1993, February 1999, February 2008, March 2019, Dec. 2019
 %   This takes an aux file and produces an unusual .bbl file,
 % that is actually in .bib format -- but it has all of the references,
 % and strings expanded. Thus, it becomes a complete, portable .bib
@@ -51,6 +51,7 @@ ENTRY
     month
     note
     number
+    numpages
     organization
     pages
     private
@@ -122,6 +123,7 @@ FUNCTION {output.bibfields1}
   "type" type output
 
   "articleno" articleno output
+  "numpages" numpages output
   "pages" pages output
 
   "institution" institution output
