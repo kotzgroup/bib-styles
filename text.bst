@@ -1,6 +1,7 @@
 % BibTeX bibliography style `text`
 %   spits out plain-text bibliography in place of bbl output.
 %   annotated with URL only, no abstract, comment, keywords, private.
+% Updated December 2019
 % DOES NOT DO CROSSREF CORRECTLY! adds [citekey] rather than [label]
 % by David Kotz kotz@dartmouth.edu
 %    modified from
@@ -30,6 +31,7 @@ ENTRY
     month
     note
     number
+    numpages
     organization
     pages
     private
@@ -357,9 +359,24 @@ FUNCTION {format.btitle}
 { title author.title.purify 
 }
 
+% DFK: concat top two stack items with intervening space IF both are non-empty
+FUNCTION {concat.with.space}
+{ duplicate$ empty$
+    { % second is empty; discard it and leave just the first
+      pop$
+    }
+    { % second is non-empty; is the first?
+      swap$ duplicate$ empty$
+        { pop$ }          % first was empty; discard it
+        { " " * swap$ * } % first was non-empty; append a space, swap and concat
+      if$
+    }
+  if$
+}
+
 FUNCTION {tie.or.space.connect}
 { duplicate$ text.length$ #3 <
-    { "~" }
+    { " " }
     { " " }
   if$
   swap$ * *
@@ -438,14 +455,6 @@ FUNCTION {multi.page.check}
   multiresult
 }
 
-% DFK: print the article number
-FUNCTION {format.articleno}
-{ articleno empty$
-    { "" }
-    { "Article #" articleno * }
-  if$
-}
-
 FUNCTION {format.pages}
 { pages empty$
     { "" }
@@ -457,43 +466,42 @@ FUNCTION {format.pages}
   if$
 }
 
-% DFK: use articleno if available, else pages
-FUNCTION {format.articleno.pages}
+% DFK: print the article number and, if available, numpages
+FUNCTION {format.articleno.numpages}
 { articleno empty$
-    { format.pages }
-    { format.articleno }
+    { "" }
+    { numpages empty$
+        { "article " articleno * }
+        { "article " articleno * " (" * numpages * " pages)" * }
+       if$
+    }
   if$
 }
 
-% DFK: add articleno, printing it when available
+% DFK: use articleno/numpages if available, else pages
+FUNCTION {format.articleno.pages}
+{ articleno empty$
+    { format.pages }
+    { format.articleno.numpages }
+  if$
+}
+
+% DFK: print articleno/number when available
 FUNCTION {format.vol.num.articleno.pages}
-{ volume field.or.null
-  number empty$
-    'skip$
-    { "(" number * ")" * *
-      volume empty$
-        { "there's a number but no volume in " cite$ * warning$ }
-        'skip$
+{ number empty$
+    { volume empty$
+        { "" }             % neither volume nor number
+        { "v." volume * }  % I dislike an unaccompanied volume number.
+      if$
+    }
+    { volume empty$
+        { "there's a number but no volume in " cite$ * warning$ "" }
+        { volume "(" * number * ")" * }
       if$
     }
   if$
-  % use #articleno if available, :pages if not available
-  articleno empty$
-    { pages empty$
-        'skip$
-        { duplicate$ empty$
-          { pop$ format.pages }
-          { ":" * pages n.dashify * }
-          if$
-        }
-      if$
-      }
-    { duplicate$ empty$
-      { pop$ format.articleno }
-      { "#" * articleno * }
-      if$
-    }
-  if$
+  % add articleno, numpages, pages if available
+  format.articleno.pages concat.with.space
 }
 
 FUNCTION {format.chapter.pages}

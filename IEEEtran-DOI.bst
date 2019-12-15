@@ -1,7 +1,5 @@
-%% David Kotz kotz@dartmouth.edu
-%%  December 2008 and March 2019
-%% support DOI, add organization to @misc and @inbook
-%% support articleno
+%% 'IEEEtran-DOI.bst' by David Kotz, kotz@dartmouth.edu
+%%  December 2008, March 2019, December 2019
 %%
 %% derived from
 %% IEEEtran.bst
@@ -289,6 +287,7 @@ ENTRY
     nationality
     note
     number
+    numpages
     organization
     pages
     paper
@@ -1705,15 +1704,6 @@ FUNCTION {format.paper}
    if$
 }
 
-% DFK: print the article number
-FUNCTION {format.articleno}
-{ articleno empty$
-    { "" }
-    { "art.\ " articleno * }
-  if$
-}
-
-
 FUNCTION {format.pages}
 { pages duplicate$ empty$ 'skip$
     { this.to.prev.status
@@ -1735,11 +1725,23 @@ FUNCTION {format.pages}
   if$
 }
 
-% DFK: use articleno if available, else pages
+% DFK: print the article number and, if available, numpages
+FUNCTION {format.articleno.numpages}
+{ articleno empty$
+    { "" }
+    { numpages empty$
+        { "article~" articleno * }
+        { "article~" articleno * " (" * numpages * "~pages)" * }
+       if$
+    }
+  if$
+}
+
+% DFK: use articleno/numpages if available, else pages
 FUNCTION {format.articleno.pages}
 { articleno empty$
     { format.pages }
-    { format.articleno }
+    { format.articleno.numpages }
   if$
 }
 
