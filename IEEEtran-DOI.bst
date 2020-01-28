@@ -1031,6 +1031,176 @@ FUNCTION {convert.edition}
 }
 
 
+%=================== Mendeley-fix code start ======================
+
+%%%%%%%%%%%%%%%%%% month-fix code start %%%%%%%%%%%%%%%%%
+% DFK: fix broken 'month' field exported by Mendeley.
+% Mendeley sometimes exports {10} instead of 10 or "October";
+% Mendeley sometimes exports {oct} instead of oct or "October".
+% on return, stack contains the proper month name.
+FUNCTION {month.fixed.by.dfk}
+{
+  month empty$
+  { "" }
+  { month "1"  = {"January "}
+    { month "2"  = {"February "}
+      { month "3"  = {"March "}
+        { month "4"  = {"April "}
+          { month "5"  = {"May "}
+            { month "6"  = {"June "}
+              { month "7"  = {"July "}
+                { month "8"  = {"August "}
+                  { month "9"  = {"September "}
+                    { month "10" = {"October "}
+                      { month "11" = {"November "}
+                        { month "12" = {"December "}
+                          { month "jan" = {"January "}
+                            { month "feb" = {"February "}
+                              { month "mar" = {"March "}
+                                { month "apr" = {"April "}
+                                  { month "may" = {"May "}
+                                    { month "jun" = {"June "}
+                                      { month "jul" = {"July "}
+                                        { month "aug" = {"August "}
+                                          { month "sep" = {"September "}
+                                            { month "oct" = {"October "}
+                                              { month "nov" = {"November "}
+                                                { month "dec" = {"December "}
+                                                  { month } if$
+                                                } if$
+                                              } if$
+                                            } if$
+                                          } if$
+                                        } if$
+                                      } if$
+                                    } if$
+                                  } if$
+                                } if$
+                              } if$
+                            } if$
+                          } if$
+                        } if$
+                      } if$
+                    } if$
+                  } if$
+                } if$
+              } if$
+            } if$
+          } if$
+        } if$
+      } if$
+    } if$
+  } if$
+}
+%%%%%%%%%%%%%%%%%% month-fix code end %%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%% search-replace code start %%%%%%%%%%%%%%%%%
+% count the real number of characters:
+%  input: string (top)
+%  output: integer number of characters in that string
+% from https://ctan.org/pkg/tamethebeast (Figure 4, adapted)
+INTEGERS{ slen }
+FUNCTION{string.length.by.dfk}
+{
+  #0 'slen :=
+  {duplicate$ duplicate$ #1 slen substring$ = not}
+    {slen #1 + 'slen :=}
+  while$
+  pop$ slen
+}
+
+% search-and-replace within a string
+%  input: original string, text to find, text to replace (top)
+%  output: the updated string
+% from https://ctan.org/pkg/tamethebeast (Figure 5)
+STRINGS{replace find text}
+INTEGERS{find_length}
+FUNCTION{find.replace.by.dfk}
+{ 'replace :=
+  'find :=
+  'text :=
+  find string.length.by.dfk 'find_length :=
+  ""
+    { text empty$ not }
+    { text #1 find_length substring$ find =
+        {
+          replace *
+          text #1 find_length + global.max$ substring$ 'text :=
+        }
+        { text #1 #1 substring$ *
+          text #2 global.max$ substring$ 'text :=
+        }
+      if$
+    }
+  while$
+}
+%%%%%%%%%%%%%%%%%% search-replace code end %%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%% string-truncate code start %%%%%%%%%%%%%%%%%
+% truncate a string at the first space
+%  input: original string
+%  output: the updated string
+% variables: text, slen, defined by search-replace code
+% (by DFK)
+FUNCTION{truncate.at.space.by.dfk}
+{
+  'text :=    % the original string
+  #1 'slen := % length of prefix of that string
+  {text #1 slen substring$ text = not     % text[1:slen] != text
+   text slen #1 substring$ " "  = not     % text[slen:slen] != space
+   and}                                   % loop until space or end of string
+    { slen #1 + 'slen := }
+  while$
+
+  % is the slen'th character a space?
+  text slen #1 substring$ " " =
+    { text #1 slen #1 - substring$ }  % return text[1:slen-1]
+    { text }                          % return original string
+  if$
+}
+%%%%%%%%%%%%%%%%%% string-truncate code end %%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%% DOI- and URL-format code start %%%%%%%%%%%%%%%%%
+% Return a 'fixed' copy of the 'DOI' field, because Mendeley 'protects' 
+% certain characters that appear in DOI strings.  We need to undo that!
+% This function should not be called when DOI field is missing$.
+% (by DFK)
+FUNCTION {doi.fixed.by.dfk}
+{
+  DOI
+  "{\_}" "_" find.replace.by.dfk
+  "{\%}" "%" find.replace.by.dfk
+}
+
+% Return a 'fixed' copy of the 'URL' field, because Mendeley 'protects'
+% certain characters that appear in URL strings, includes a newline (%0A)
+% at the end of some URLs, and concatenates multiple URLs into one string.
+% We unprotect characters, delete %0A, and truncate at the first space.
+% This function should not be called when URL field is missing$.
+% (by DFK)
+FUNCTION {url.fixed.by.dfk}
+{
+  URL
+  truncate.at.space.by.dfk
+  "%0A" "" find.replace.by.dfk
+}
+
+%% DOI and URL (by DFK)
+%% give preference to DOI, if present
+FUNCTION {format.doi.or.url.by.dfk}
+{ doi empty$
+    { url empty$
+	{ "" }
+	{ "Online at \url{" url.fixed.by.dfk * "}" * }
+      if$
+    }
+    { "DOI \DOIbbl{" doi.fixed.by.dfk * "}" * }
+  if$
+}
+%%%%%%%%%%%%%%%%%% DOI- and URL-format code end %%%%%%%%%%%%%%%%%
+
+%=================== Mendeley-fix code end ======================
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1221,7 +1391,7 @@ FUNCTION {format.address.org.or.pub.date}
                 { year "year" bibinfo.check * }
               if$
             }
-            { month "month" bibinfo.check *
+            { month.fixed.by.dfk "month" bibinfo.check *
               year empty$
                  { skip$ }
                  { " " * year "year" bibinfo.check * }
@@ -1327,7 +1497,7 @@ FUNCTION {format.editors}
 
 FUNCTION {format.date}
 {
-  month "month" bibinfo.check duplicate$ empty$
+  month.fixed.by.dfk "month" bibinfo.check duplicate$ empty$
   year  "year" bibinfo.check duplicate$ empty$
     { swap$ 'skip$
         { this.to.prev.status
@@ -1352,7 +1522,7 @@ FUNCTION {format.date}
 }
 
 FUNCTION {format.date.electronic}
-{ month "month" bibinfo.check duplicate$ empty$
+{ month.fixed.by.dfk "month" bibinfo.check duplicate$ empty$
   year  "year" bibinfo.check duplicate$ empty$
     { swap$ 
         { pop$ }
@@ -1826,7 +1996,7 @@ FUNCTION {format.patent.date}
         }
       if$
     }
-    { month duplicate$ empty$
+    { month.fixed.by.dfk duplicate$ empty$
         { "month" bibinfo.check pop$ "" }
         { "month" bibinfo.check }
       if$
@@ -1981,30 +2151,6 @@ FUNCTION {format.url}
   if$
 }
 
-%% DOI and URL (by DFK)
-%% give preference to DOI, if present
-FUNCTION {format.doi.or.url}
-{ is.use.doi
-    { doi empty$
-      { format.url }
-      { this.to.prev.status
-	this.status.std
-	cap.yes 'status.cap :=
-	name.doi.prefix " " *
-	"\DOIbbl{" * doi * "}" *
-	punct.no 'this.status.punct :=
-	punct.period 'prev.status.punct :=
-	space.normal 'this.status.space :=
-	space.normal 'prev.status.space :=
-	quote.no 'this.status.quote :=
-      }
-    if$
-    }
-    { "" }
-  if$
-}
-
-
 
 %%%%%%%%%%%%%%%%%%%%
 %% ENTRY HANDLERS %%
@@ -2027,7 +2173,7 @@ FUNCTION {article}
   format.articleno.pages output
   format.date "year" output.warn
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2051,7 +2197,7 @@ FUNCTION {book}
   format.volume output
   format.number output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2068,7 +2214,7 @@ FUNCTION {booklet}
   format.address "address" bibinfo.check output
   format.date output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2085,7 +2231,7 @@ FUNCTION {electronic}
   format.organization "organization" bibinfo.check output
   format.address "address" bibinfo.check output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2108,7 +2254,7 @@ FUNCTION {inbook}
   format.chapter output
   format.articleno.pages output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2129,7 +2275,7 @@ FUNCTION {incollection}
   format.chapter output
   format.articleno.pages output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2155,7 +2301,7 @@ FUNCTION {inproceedings}
   format.paper output
   format.articleno.pages output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2172,7 +2318,7 @@ FUNCTION {manual}
   format.address "address" bibinfo.check output
   format.date output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2189,7 +2335,7 @@ FUNCTION {mastersthesis}
   format.address "address" bibinfo.check output
   format.date "year" output.warn
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2207,7 +2353,7 @@ FUNCTION {misc}
   format.articleno.pages output
   format.date output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2223,7 +2369,7 @@ FUNCTION {patent}
   format.patent.nationality.type.number output
   format.patent.date output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2242,7 +2388,7 @@ FUNCTION {periodical}
   format.organization "organization" bibinfo.check output
   format.date "year" output.warn
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2259,7 +2405,7 @@ FUNCTION {phdthesis}
   format.address "address" bibinfo.check output
   format.date "year" output.warn
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2281,7 +2427,7 @@ FUNCTION {proceedings}
     }
   if$
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2298,7 +2444,7 @@ FUNCTION {standard}
   format.revision output
   format.date output
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2316,7 +2462,7 @@ FUNCTION {techreport}
   format.tech.report.number output.nonnull
   format.date "year" output.warn
   format.note output
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2330,7 +2476,7 @@ FUNCTION {unpublished}
   format.article.title "title" output.warn
   format.date output
   format.note "note" output.warn
-  format.doi.or.url output
+  format.doi.or.url.by.dfk output
   fin.entry
   if.url.std.interword.spacing
 }
