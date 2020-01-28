@@ -223,6 +223,7 @@ FUNCTION {format.names}
   while$
 }
 
+%=================== Mendeley-fix code start ======================
 
 %%%%%%%%%%%%%%%%%% month-fix code start %%%%%%%%%%%%%%%%%
 % DFK: fix broken 'month' field exported by Mendeley.
@@ -389,6 +390,8 @@ FUNCTION {format.doi.or.url.by.dfk}
   if$
 }
 %%%%%%%%%%%%%%%%%% DOI- and URL-format code end %%%%%%%%%%%%%%%%%
+
+%=================== Mendeley-fix code end ======================
 
 
 FUNCTION {format.authors}
