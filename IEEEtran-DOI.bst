@@ -1191,10 +1191,18 @@ FUNCTION {format.doi.or.url.by.dfk}
 { doi empty$
     { url empty$
 	{ "" }
-	{ "Online at \url{" url.fixed.by.dfk * "}" * }
+	{ this.to.prev.status
+          this.status.std
+          cap.yes 'status.cap :=
+          "Online at \url{" url.fixed.by.dfk * "}" *
+        }
       if$
     }
-    { "DOI \DOIbbl{" doi.fixed.by.dfk * "}" * }
+    { this.to.prev.status
+      this.status.std
+      cap.yes 'status.cap :=
+      "DOI \DOIbbl{" doi.fixed.by.dfk * "}" *
+    }
   if$
 }
 %%%%%%%%%%%%%%%%%% DOI- and URL-format code end %%%%%%%%%%%%%%%%%
