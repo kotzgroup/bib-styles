@@ -1038,7 +1038,7 @@ FUNCTION {convert.edition}
 % Mendeley sometimes exports {10} instead of 10 or "October";
 % Mendeley sometimes exports {oct} instead of oct or "October".
 % on return, stack contains the proper month name.
-FUNCTION {month.fixed.by.dfk}
+FUNCTION {month.fixed.abbrv.by.dfk}
 {
   month empty$
   { "" }
@@ -1399,7 +1399,7 @@ FUNCTION {format.address.org.or.pub.date}
                 { year "year" bibinfo.check * }
               if$
             }
-            { month.fixed.by.dfk "month" bibinfo.check *
+            { month.fixed.abbrv.by.dfk "month" bibinfo.check *
               year empty$
                  { skip$ }
                  { " " * year "year" bibinfo.check * }
@@ -1505,7 +1505,7 @@ FUNCTION {format.editors}
 
 FUNCTION {format.date}
 {
-  month.fixed.by.dfk "month" bibinfo.check duplicate$ empty$
+  month.fixed.abbrv.by.dfk "month" bibinfo.check duplicate$ empty$
   year  "year" bibinfo.check duplicate$ empty$
     { swap$ 'skip$
         { this.to.prev.status
@@ -1530,7 +1530,7 @@ FUNCTION {format.date}
 }
 
 FUNCTION {format.date.electronic}
-{ month.fixed.by.dfk "month" bibinfo.check duplicate$ empty$
+{ month.fixed.abbrv.by.dfk "month" bibinfo.check duplicate$ empty$
   year  "year" bibinfo.check duplicate$ empty$
     { swap$ 
         { pop$ }
@@ -2004,7 +2004,7 @@ FUNCTION {format.patent.date}
         }
       if$
     }
-    { month.fixed.by.dfk duplicate$ empty$
+    { month.fixed.abbrv.by.dfk duplicate$ empty$
         { "month" bibinfo.check pop$ "" }
         { "month" bibinfo.check }
       if$

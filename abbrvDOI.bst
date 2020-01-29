@@ -199,7 +199,7 @@ FUNCTION {emphasize}
 % Mendeley sometimes exports {10} instead of 10 or "October";
 % Mendeley sometimes exports {oct} instead of oct or "October".
 % on return, stack contains the proper month name.
-FUNCTION {month.fixed.by.dfk}
+FUNCTION {month.fixed.abbrv.by.dfk}
 {
   month empty$
   { "" }
@@ -450,13 +450,13 @@ FUNCTION {format.date}
     { month empty$
         { "" }
         { "there's a month but no year in " cite$ * warning$
-          month.fixed.by.dfk
+          month.fixed.abbrv.by.dfk
         }
       if$
     }
     { month empty$
         'year
-        { month.fixed.by.dfk " " * year * }
+        { month.fixed.abbrv.by.dfk " " * year * }
       if$
     }
   if$
