@@ -3,6 +3,7 @@
 % August 2002
 %   This prints just the cite key and the URL for each paper that has
 % a URL.  If DOI or URLpdf exists, it is preferred over URL.
+% NOT FOR USE WITH MENDELEY EXPORTS; this bst does not fix Mendeley's bugs.
 % modified from 
   % BibTeX bibliography style `subset'
   % by David Kotz kotz@dartmouth.edu
@@ -85,15 +86,6 @@ FUNCTION {choose.URL}
 	URLpdf
     }
   if$
-}
-
-% CUSTOMIZE: DFK added
-FUNCTION {format.DOI}
-{
-   DOI empty$
-     { "" }
-     { "DOI " DOI * }
-   if$
 }
 
 % doesn't always write something
