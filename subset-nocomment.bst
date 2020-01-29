@@ -6,6 +6,7 @@
 % and strings expanded. Thus, it becomes a complete, portable .bib
 % file. Crossrefs are retained but redundant.
 % This one doesn't include 'comment' in output.
+% NOT FOR USE WITH MENDELEY EXPORTS; this bst does not fix Mendeley's bugs.
 %  modified from
    % BibTeX bibliography style `abstract' 
    % by David Kotz dfk@cs.duke.edu

@@ -1,6 +1,7 @@
 % BibTeX bibliography style `subset-public'
 % by David Kotz kotz@dartmouth.edu
 % March 2001, February 2008, March 2019, December 2019
+% NOT FOR USE WITH MENDELEY EXPORTS; this bst does not fix Mendeley's bugs.
 % modified from 'subset'
   % by David Kotz kotz@dartmouth.edu
   % August 1992, May 1993, February 1999
