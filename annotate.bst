@@ -2,10 +2,7 @@
 %% Updated March 2019, December 2019
 %%    modified from
 % From wichura@galton.uchicago.edu Sat Nov 11 15:40:08 1995
-% 
-% Hi. Here is annotate.bst. I got this from Nelson's Beebe's collection of 
-% Bibtex materials (the site is ftp.math.utah.edu, directory something like 
-% /pub/tex/bibtex)
+% who started with annotate.bst from Nelson's Beebe's collection.
 % 
 % ------------------------------------------------------------------------
 
@@ -14,7 +11,7 @@
 
 ENTRY
   { address
-    annotate
+    annote
     articleno
     author
     booktitle
@@ -400,11 +397,11 @@ FUNCTION {format.authors}
   if$
 }
 
-FUNCTION {format.annotate}
-{ annotate empty$
+FUNCTION {format.annote}
+{ annote empty$
 	{ "" }
 	{ " \begin{quotation}\noindent "
-	  annotate
+	  annote
 	  * " \end{quotation} " *
 	}
       if$
@@ -778,7 +775,7 @@ FUNCTION {article}
   note output 
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
   newline$
 }
 
@@ -813,7 +810,7 @@ FUNCTION {book}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
   newline$
 
 }
@@ -831,7 +828,7 @@ FUNCTION {booklet}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
   newline$
 
 }
@@ -869,7 +866,7 @@ FUNCTION {inbook}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {incollection}
@@ -897,7 +894,7 @@ FUNCTION {incollection}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {inproceedings}
@@ -933,7 +930,7 @@ FUNCTION {inproceedings}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$  
+  format.annote write$  
 }
 
 FUNCTION {conference} { inproceedings }
@@ -972,7 +969,7 @@ FUNCTION {manual}
   format.doi.or.url.by.dfk output
   fin.entry
 
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {mastersthesis}
@@ -989,7 +986,7 @@ FUNCTION {mastersthesis}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {misc}
@@ -1004,7 +1001,7 @@ FUNCTION {misc}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
   empty.misc.check
 }
 
@@ -1022,7 +1019,7 @@ FUNCTION {phdthesis}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {proceedings}
@@ -1059,7 +1056,7 @@ FUNCTION {proceedings}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {techreport}
@@ -1076,7 +1073,7 @@ FUNCTION {techreport}
   note output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {unpublished}
@@ -1089,7 +1086,7 @@ FUNCTION {unpublished}
   format.date output
   format.doi.or.url.by.dfk output
   fin.entry
-  format.annotate write$
+  format.annote write$
 }
 
 FUNCTION {default.type} { misc }
