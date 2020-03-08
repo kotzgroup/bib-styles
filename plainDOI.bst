@@ -17,6 +17,7 @@ ENTRY
     author
     booktitle
     chapter
+    day
     doi
     edition
     editor
@@ -456,7 +457,11 @@ FUNCTION {format.date}
     }
     { month empty$
 	'year
-	{ month.fixed.by.dfk " " * year * }
+	{ day empty$
+            { month " " * year * }
+            { month.fixed.by.dfk " " * day * ", " * year * }
+          if$
+        }
       if$
     }
   if$

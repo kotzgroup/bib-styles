@@ -1521,7 +1521,11 @@ FUNCTION {format.date}
       swap$ 'skip$
         {
           swap$
-          " " * swap$
+          " " * 
+          day empty$ 'skip$
+            { day * ", " * }
+          if$
+          swap$
         }
       if$
       *

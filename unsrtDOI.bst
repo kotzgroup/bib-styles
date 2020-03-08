@@ -17,6 +17,7 @@ ENTRY
     author
     booktitle
     chapter
+    day
     doi
     edition
     editor
@@ -199,34 +200,34 @@ FUNCTION {emphasize}
 % Mendeley sometimes exports {10} instead of 10 or "October";
 % Mendeley sometimes exports {oct} instead of oct or "October".
 % on return, stack contains the proper month name.
-FUNCTION {month.fixed.abbrv.by.dfk}
+FUNCTION {month.fixed.by.dfk}
 {
   month empty$
   { "" }
-  { month "1"  = {"Jan."}
-    { month "2"  = {"Feb."}
-      { month "3"  = {"Mar."}
-        { month "4"  = {"Apr."}
+  { month "1"  = {"January"}
+    { month "2"  = {"February"}
+      { month "3"  = {"March"}
+        { month "4"  = {"April"}
           { month "5"  = {"May"}
-            { month "6"  = {"Jun."}
-              { month "7"  = {"Jul."}
-                { month "8"  = {"Aug."}
-                  { month "9"  = {"Sep."}
-                    { month "10" = {"Oct."}
-                      { month "11" = {"Nov."}
-                        { month "12" = {"Dec."}
-                          { month "jan" = {"Jan."}
-                            { month "feb" = {"Feb."}
-                              { month "mar" = {"Mar."}
-                                { month "apr" = {"Apr."}
+            { month "6"  = {"June"}
+              { month "7"  = {"July"}
+                { month "8"  = {"August"}
+                  { month "9"  = {"September"}
+                    { month "10" = {"October"}
+                      { month "11" = {"November"}
+                        { month "12" = {"December"}
+                          { month "jan" = {"January"}
+                            { month "feb" = {"February"}
+                              { month "mar" = {"March"}
+                                { month "apr" = {"April"}
                                   { month "may" = {"May"}
-                                    { month "jun" = {"Jun."}
-                                      { month "jul" = {"Jul."}
-                                        { month "aug" = {"Aug."}
-                                          { month "sep" = {"Sep."}
-                                            { month "oct" = {"Oct."}
-                                              { month "nov" = {"Nov."}
-                                                { month "dec" = {"Dec."}
+                                    { month "jun" = {"June"}
+                                      { month "jul" = {"July"}
+                                        { month "aug" = {"August"}
+                                          { month "sep" = {"September"}
+                                            { month "oct" = {"October"}
+                                              { month "nov" = {"November"}
+                                                { month "dec" = {"December"}
                                                   { month } if$
                                                 } if$
                                               } if$
@@ -450,13 +451,17 @@ FUNCTION {format.date}
     { month empty$
 	{ "" }
 	{ "there's a month but no year in " cite$ * warning$
-	  month.fixed.abbrv.by.dfk
+	  month.fixed.by.dfk
 	}
       if$
     }
     { month empty$
 	'year
-	{ month.fixed.abbrv.by.dfk " " * year * }
+	{ day empty$
+            { month " " * year * }
+            { month.fixed.by.dfk " " * day * ", " * year * }
+          if$
+        }
       if$
     }
   if$
