@@ -484,7 +484,7 @@ FUNCTION {format.date}
     { month empty$
 	'year
 	{ day empty$
-            { month " " * year * }
+            { month.fixed.by.dfk " " * year * }
             { month.fixed.by.dfk " " * day * ", " * year * }
           if$
         }
