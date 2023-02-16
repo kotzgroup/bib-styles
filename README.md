@@ -6,11 +6,8 @@ Three main categories:
 
 * `subset-*` produce a bibtex file that is a subset of the source bibtex
 * `*DOI.bst` produce a latex References section much like the standard styles but with smarts to support DOI and URL fields.
-* `ACMmend.bst` incorporates special 'fixes' to deal with Mendeley exports.  It natively handles DOI.
-	* TODO: rename it `ACM.bst`
-* `plainDOImend.bst` incorporates special 'fixes' to deal with Mendeley exports.  
-	* TODO: merge this into `plainDOI` permanently, and add the same capability to other `*DOI.bst` as well.
-
+* `ACM.bst` incorporates special 'fixes' to deal with Mendeley exports.  It natively handles DOI.
+* `plainDOI.bst` incorporates special 'fixes' to deal with Mendeley exports.
 
 ## Reference material
 
@@ -37,8 +34,6 @@ Our variant is based on the [ACM standard LaTeX template](https://www.acm.org/pu
 
 ## To do
 
-* support ACM style
-* port Mendeley fixes from `plainDOImend` to all other DOI styles.
 * consider a new bst that is more concise, as our new default.
   * (show DOI instead of vol, num, pages, month)
   * (warn if no DOI for article, inproc, incoll)
