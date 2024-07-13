@@ -3,8 +3,9 @@
 %%%  @BibTeX-style-file{
 %%%     author          = "Nelson H. F. Beebe, Boris Veytsman and Gerald Murray [modified by David Kotz]",
 %%%     version         = "2.1 [modified by David Kotz]",
-%%%     date            = "9 December 2019",
-%%%     filename        = "ACM-DOImend.bst",
+%%%     acmart-version  = "1.90",
+%%%     date            = "Mar 26 2023 [modified July 2024 by David Kotz]",
+%%%     filename        = "ACM.bst",
 %%%     email           = "kotz@dartmouth.edu",
 %%%     codetable       = "ISO/ASCII",
 %%%     keywords        = "ACM Transactions bibliography style; BibTeX",
