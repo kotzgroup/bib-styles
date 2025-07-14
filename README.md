@@ -19,18 +19,9 @@ Some of which is cached in subdirectory `documentation`.
 * [TameTheBeast](https://ctan.org/pkg/tamethebeast) - a manual that goes beyond the original documentation. No need to download the package - just click the pdf link.
 * [How to do search-and-replace in BibTeX](https://tex.stackexchange.com/questions/28102/use-character-substitution-in-bibtex-bst-file)
 
-## IEEE styles
+## Reference styles
 
-Our variant is based on **IEEEtran**, for conferences and journals.
-
-* IEEEtran.bst should already be available in standard TeX distros.
-	*  `/usr/local/texlive/2018/texmf-dist/bibtex//bst/IEEEtran/IEEEtran.bst`
-* As of November 2019, it is at v1.14, per [info](http://www.michaelshell.org/tex/ieeetran/) from its maintainer.
-* other distributions are behind, e.g., IEEE distributes v1.12.
-
-## ACM styles
-
-Our variant is based on the [ACM standard LaTeX template](https://www.acm.org/publications/proceedings-template).
+See `base/README.md` for a cached copy of the styles from which mine are derived, and information about where and when I obtained them.
 
 ## To do
 
